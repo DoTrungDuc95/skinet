@@ -41,20 +41,26 @@
       <div
         class="d-flex justify-content-between align-items-center pb-2 mb-2 border-bottom"
       >
-        <header>
-          <span
-            >Showing <strong>10</strong> of <strong>20</strong> result(s)</span
-          >
-        </header>
+        <app-paging-header
+          [totalCount]="totalCount"
+          [pageSize]="shopParam.pageSize"
+          [pageNumber]="shopParam.pageNumber"
+        ></app-paging-header>
         <div class="form-inline">
           <input
+            #search
+            (keyup.enter)="onSearch()"
             type="text"
             class="form-control"
             style="width: 300px;"
             placeholder="Search"
           />
-          <button class="btn btn-outline-primary">Search</button>
-          <button class="btn btn-outline-success">Reset</button>
+          <button class="btn btn-outline-primary" (click)="onSearch()">
+            Search
+          </button>
+          <button class="btn btn-outline-success" (click)="onReset()">
+            Reset
+          </button>
         </div>
       </div>
       <div class="row">
@@ -63,17 +69,16 @@
         </div>
       </div>
 
-      <pagination class="d-flex justify-content-center"
-        [boundaryLinks]="true"
-        [totalItems]="totalCount"
-        (pageChanged)="onPageChanged($event)"
-        [itemsPerPage]="shopParam.pageSize"
-        previousText="&lsaquo;"
-        nextText="&rsaquo;"
-        firstText="&laquo;"
-        lastText="&raquo;"
+      <div
+        *ngIf="totalCount && totalCount > 0"
+        class="d-flex justify-content-center"
       >
-      </pagination>
+        <app-pager
+          [pageSize]="shopParam.pageSize"
+          [totalCount]="totalCount"
+          (pageChanged)="onPageChanged($event)"
+        ></app-pager>
+      </div>
     </section>
   </div>
 </div>

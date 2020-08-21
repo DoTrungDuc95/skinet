@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IPagination } from '../shared/models/pagination';
 import { ShopParams } from '../shared/models/shopParams';
+import { IProduct } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,9 @@ export class ShopService {
     if (shopParam.tId !== 0) {
       params = params.append('typeId', shopParam.tId.toString());
     }
+    if (shopParam.search) {
+      params = params.append('search', shopParam.search);
+    }
     params = params.append('sort', shopParam.sort);
     params = params.append('pageIndex', shopParam.pageNumber.toString());
     params = params.append('pageSize', shopParam.pageSize.toString());
@@ -30,6 +34,10 @@ export class ShopService {
       observe: 'response',
       params,
     });
+  }
+
+  getProduct(id: number) {
+    return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
 
   getBrands(): Observable<IBrand[]> {
